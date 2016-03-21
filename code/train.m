@@ -1,3 +1,7 @@
+%% steps to run the code :
+% 1. load_mnist_data
+% 2. init_model
+% 3. train.m, need to define model,input, label,params
 function [model, loss] = train(model,input,label,params,numIters)
 
 % Initialize training parameters
