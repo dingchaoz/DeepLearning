@@ -63,3 +63,7 @@ target/
 
 #Ignore virtual environment folder
 my-venv
+
+#Ignore the data folder
+data
+
