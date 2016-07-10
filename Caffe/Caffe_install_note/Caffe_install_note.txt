@@ -1,6 +1,58 @@
-First install Fink:
+1. First install Fink:
 http://www.finkproject.org/download/srcdist.php
 per the link above, use the .tool script to run Fink installation automatically after jdk is installed,
 the .tool script is called install_fink.tool in this directory
-Then install atlas using fink following the instruction:
+2. Then install atlas using fink following the instruction:
 http://okomestudio.net/biboroku/?p=722
+3.  Then follow part of the following instructions:
+http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/
+http://caffe.berkeleyvision.org/installation.html#compilation
+
+In the following specific orders:
+Dependencies via homebrew
+
+4. First, we need to modify something..
+
+brew edit opencv
+Replace the following lines
+
+args << "-DPYTHON#{py_ver}_LIBRARY=#{py_lib}/libpython2.7.#{dylib}"
+args << "-DPYTHON#{py_ver}_INCLUDE_DIR=#{py_prefix}/include/python2.7"
+with
+
+args << "-DPYTHON_LIBRARY=#{py_prefix}/lib/libpython2.7.dylib"
+args << "-DPYTHON_INCLUDE_DIR=#{py_prefix}/include/python2.7"
+then
+
+5.
+ brew install --fresh -vd snappy leveldb gflags glog szip lmdb homebrew/science/opencv
+
+brew install --build-from-source --with-python --fresh -vd protobuf
+brew install --build-from-source --fresh -vd boost boost-python
+
+6. Download Caffe
+git clone https://github.com/BVLC/caffe.git
+
+cd caffe
+
+cp Makefile.config.example Makefile.config
+
+7. Assure to review Makefile.config to changes suit to your needs
+For me, I had to comment the default python path, and use the Ananconda python paths: line 68-71, line 80
+uncomment line 8, since only CPU can be used
+
+8. in cmd, find the caffe path( in my case, in Documents/Software/caffe, and type the following template
+export PYTHONPATH=/path/to/caffe/python:$PYTHONPATH
+
+9. Make and test
+make clean
+
+make all -j8
+
+make test
+
+make runtest
+
+make pycaffe
+
+make distribute(?) I didn't run this line
